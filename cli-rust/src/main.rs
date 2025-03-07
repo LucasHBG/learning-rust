@@ -1,27 +1,31 @@
-use std::{env, path};
-// use clap::Parser;
+use clap::Parser;
 
-// #[derive(Parser)]
+#[derive(Parser)]
 struct Cli {
     /// The pattern to look for
-    // #[arg(short, long)]
-    pattern: String,
+    #[arg(short = 'q', long)]
+    query: String,
+    
     /// The path to the file to read
-    // #[arg(short, long)]
+    #[arg(short = 'p', long)]
     path: std::path::PathBuf,
+
+    /// lancei o tadala?
+    #[arg(short = 't', long)]
+    tadala: i8,
 }
 
 fn main() -> () {
     
-    let query: String = env::args().nth(1).expect("no pattern given");
-    let file_path: String = env::args().nth(2).expect("no path given");
-    
-    let args = Cli {
-        pattern: query,
-        path: path::PathBuf::from(file_path),
-    };
+    let args = Cli::parse();
 
-    println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
+    if args.tadala == 1 {
+        println!("To pronto pro abate fellas!!");
+    } else {
+        println!("To broxa fellas :(");
+    }
+
+    println!("pattern: {:?}, path: {:?}, turbo: {:?}", args.query, args.path, args.tadala);
 
     
 }
