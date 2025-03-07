@@ -1,31 +1,27 @@
-use std::{env, fs};
+use std::{env, path};
+// use clap::Parser;
 
-struct Config {
-    query: String,
-    file_path: String,
+// #[derive(Parser)]
+struct Cli {
+    /// The pattern to look for
+    // #[arg(short, long)]
+    pattern: String,
+    /// The path to the file to read
+    // #[arg(short, long)]
+    path: std::path::PathBuf,
 }
 
 fn main() -> () {
-    let args: Vec<String> = env::args().collect();
+    
+    let query: String = env::args().nth(1).expect("no pattern given");
+    let file_path: String = env::args().nth(2).expect("no path given");
+    
+    let args = Cli {
+        pattern: query,
+        path: path::PathBuf::from(file_path),
+    };
 
-    let config = parse_config(&args);
+    println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
 
-    println!("Searching file path with query: {}", config.query);
-    println!("In file {}", config.file_path);
-
-    let _contents: String =
-        fs::read_to_string(config.file_path).expect("Should have been able to read the file");
-
-    // println!("With content: \n - {contents}");
-
-    // while contents. {
-
-    // }
-}
-
-fn parse_config(args: &[String]) -> Config {
-    let query = args[1].clone();
-    let file_path = args[2].clone();
-
-    return Config { query, file_path };
+    
 }
